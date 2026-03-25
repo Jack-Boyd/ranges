@@ -1,20 +1,25 @@
 #include <iostream>
 #include <ranges>
-#include <typeinfo>
+#include <vector>
 
 int main()
 {
   std::vector<int> vec{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
   
-  auto view = 
-    std::views::filter(vec, [](int i) {
-      return i % 2 == 1;
-    }) | std::views::transform([](int i) {
-      return i * i;
-    });
+  auto view = vec | 
+    std::views::filter([](int x) {
+      return x % 2 == 1;
+    }) | 
+    std::views::transform([](int x) {
+      return x * x;
+    }) | 
+    std::views::take(15) | 
+    std::ranges::to<std::vector<int>>();
 
-  for (auto i : view) {
-    std::cout << i << std::endl;
+  for (int v : view) {
+    std::cout << v << " ";
   }
+  std::cout << "\n";
+
   return 0;
 }
